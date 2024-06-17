@@ -1,14 +1,27 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
+import accounts from "./accouts";
+import { HTTPException } from "hono/http-exception";
 
-export const runtime = 'edge';
-const app = new Hono().basePath('/api')
+export const runtime = "edge";
+const app = new Hono().basePath("/api");
 
-app.get('/hello', (c) => {
-  return c.json({
-    message: 'Hello Next.js!',
-  })
-})
+app.onError((err, c) => {
+  if (err instanceof HTTPException) {
+    // Get the custom response
+    return err.getResponse();
+  }
+  return c.json(
+    {
+      error: "Internal Error",
+    },
+    500
+  );
+});
 
-export const GET = handle(app)
-export const POST = handle(app)
+const routes = app.route("/accounts", accounts);
+
+export const GET = handle(app);
+export const POST = handle(app);
+
+export type AppType = typeof routes;
