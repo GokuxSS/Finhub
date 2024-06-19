@@ -15,6 +15,13 @@
       "when": 1718632345730,
       "tag": "0001_crazy_domino",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1718715789552,
+      "tag": "0002_overjoyed_gwen_stacy",
+      "breakpoints": true
     }
   ]
 }

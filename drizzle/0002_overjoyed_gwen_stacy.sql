@@ -1,0 +1,1 @@
+ALTER TABLE "account" ALTER COLUMN "plaid_id" DROP NOT NULL;
