@@ -27,7 +27,7 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
 
   const results = await db.select().from(accounts);
   return c.json({ data: results });
-}).post("/",zValidator('json',accountSchema.pick({name:true})) ,async (c)=>{
+}).post("/",clerkMiddleware(),zValidator('json',accountSchema.pick({name:true})) ,async (c)=>{
   const auth = getAuth(c);
 
   if (!auth?.userId) {

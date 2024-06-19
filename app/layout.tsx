@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import {SheetProvider} from "@/features/accounts/components/sheet-provider"
 
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/sonner"
 
 import QueryProvider from "@/providers/query-provider"; 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import "./globals.css";
 
@@ -28,6 +31,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <QueryProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <SheetProvider/>
+            <Toaster/>
             {children}
           </QueryProvider>
         </body>
