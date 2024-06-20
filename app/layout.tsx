@@ -1,16 +1,16 @@
+import { SheetProvider } from "@/features/accounts/components/sheet-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import {SheetProvider} from "@/features/accounts/components/sheet-provider"
 
 import {
   ClerkProvider,
-} from '@clerk/nextjs'
-import { Toaster } from "@/components/ui/sonner"
+} from '@clerk/nextjs';
 
-import QueryProvider from "@/providers/query-provider"; 
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import QueryProvider from "@/providers/query-provider";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import "./globals.css";
+import { Toaster } from "sonner";
 
 
 
