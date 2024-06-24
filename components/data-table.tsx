@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 import { Trash } from "lucide-react"
+import useConfirm from "@/hooks/useConfirm"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -41,8 +42,12 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   filterKey,
-  disabled
+  disabled,
+  onDelete
 }: DataTableProps<TData, TValue>) {
+
+  const [Dialog,confirmDelete] =useConfirm( 'Are you sure?',
+    'Are you sure you want to delete user "Isaac Kwok"?');
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -70,6 +75,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+        <Dialog/>
         <div className="flex items-center py-4">
             <Input
             placeholder={`Filter ${filterKey}...`}
@@ -81,7 +87,16 @@ export function DataTable<TData, TValue>({
             />
             {
              table.getFilteredSelectedRowModel().rows.length > 0 && (
-               <Button size="sm" disabled={disabled} variant="outline" className="ml-auto font-normal text-sx">
+               <Button size="sm" disabled={disabled} variant="outline" className="ml-auto font-normal text-sx" onClick={
+                async ()=>{
+                  console.log("Deleted button");
+                  const ans = await confirmDelete();
+                  // const ans = true;
+                  if(ans){
+                    onDelete(table.getFilteredSelectedRowModel().rows);
+                    table.resetRowSelection();
+                  }
+               }}>
                 <Trash className="size-4 mr-2"/>
                 Delete 
                 {table.getFilteredSelectedRowModel().rows.length}

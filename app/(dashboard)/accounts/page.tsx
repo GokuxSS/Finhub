@@ -4,36 +4,44 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
+import useGetAccounts from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { columns } from "./columns";
+
+import { Skeleton } from "@/components/ui/skeleton";
+import { useBulkDelete } from "@/features/accounts/hooks/use-bulk-delete";
 
 export default function AccountPage() {
   const newAccount = useNewAccount();
+  const getAccountsQuery = useGetAccounts();
+  const deleteAccountsQuery = useBulkDelete();
 
-  const data = [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728edfdd52f",
-      amount: 123400,
-      status: "processing",
-      email: "mxvd@example.com",
-    },
-    {
-      id: "728xcdved52f",
-      amount: 112400,
-      status: "pending",
-      email: "xvdvm@example.com",
-    },
-   ]
+
+  const accountsData = getAccountsQuery.data || [];
+
+  const isDisabled = getAccountsQuery.isLoading || deleteAccountsQuery.isPending;
+
+  if (getAccountsQuery.isLoading){
+    return (
+      <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+        <Card className="border-none drop-shadow-sm">
+        <CardHeader>
+          <Skeleton className="h-8 w-48"/>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[500px] w-full flex items-center justify-center">
+            <Loader2 className="size-6 text-slate-300 animate-spin"/>
+          </div>
+        </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
@@ -45,7 +53,10 @@ export default function AccountPage() {
                 Add New
             </Button>
             </CardHeader>
-            <DataTable filterKey="email" columns={columns} data={data} disabled={false} />
+            <DataTable filterKey="email" columns={columns} data={accountsData} disabled={isDisabled} onDelete={(row)=>{
+              const ids = row.map(r=>r.original.id);
+              deleteAccountsQuery.mutate({ids});
+            }}/>
         </Card>
     </div>
   );    
