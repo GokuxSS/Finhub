@@ -1,4 +1,3 @@
-import { SheetProvider } from "@/features/accounts/components/sheet-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -7,6 +6,7 @@ import {
 } from '@clerk/nextjs';
 
 import QueryProvider from "@/providers/query-provider";
+import {SheetProvider} from "@/providers/sheet-provider";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import "./globals.css";

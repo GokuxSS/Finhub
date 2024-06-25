@@ -6,25 +6,28 @@ import { client } from "@/lib/hono-client";
 import { toast } from "sonner"
 
 // InferRequestType
-type ReqType = InferRequestType<typeof client.api.accounts["bulk-delete"]["$post"]>["json"];
+type ReqType = InferRequestType<typeof client.api.accounts[":id"]["$patch"]>["json"];
 
 // InferResponseType
-type ResType = InferResponseType<typeof client.api.accounts["bulk-delete"]["$post"]>;
+type ResType = InferResponseType<typeof client.api.accounts[":id"]["$patch"]>;
 
-export function useBulkDelete() {
+export function useEditAccount(id?:string) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResType, Error, ReqType>({
     mutationFn: async (json) => {
-      const res = await client.api.accounts["bulk-delete"]["$post"]({ json });
-      return res.json();
+      const res = await client.api.accounts[":id"]["$patch"]({param:{
+        id
+      }, json });
+      return await res.json();
     },
     onSuccess:()=>{
         queryClient.invalidateQueries({queryKey:["accoutns"]})
-        toast.success("Succefully Deleted Accounts");
+        queryClient.invalidateQueries({queryKey:["accoutns",{id}]})
+        toast.success("Account Updated");
     },
     onError:()=>{
-        toast.error("Failed to delete accounts");
+        toast.error("Failed to edit account");
     }
   });
 

@@ -45,7 +45,7 @@ export default function useConfirm(
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{message}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="pt-2">
             <Button onClick={handleConfirm}>Delete</Button>
             <Button variant="outline" onClick={handleCancel}>Cancle</Button>
         </DialogFooter>

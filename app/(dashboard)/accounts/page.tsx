@@ -14,13 +14,13 @@ import { Loader2, Plus } from "lucide-react";
 import { columns } from "./columns";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useBulkDelete } from "@/features/accounts/hooks/use-bulk-delete";
+import { useBulkDeleteAccounts } from "@/features/accounts/hooks/use-bulk-delete-accounts";
+
 
 export default function AccountPage() {
   const newAccount = useNewAccount();
   const getAccountsQuery = useGetAccounts();
-  const deleteAccountsQuery = useBulkDelete();
-
+  const deleteAccountsQuery = useBulkDeleteAccounts();
 
   const accountsData = getAccountsQuery.data || [];
 
@@ -45,7 +45,7 @@ export default function AccountPage() {
 
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
-        <Card className="border-none drop-shadow-sm">
+        <Card className="border-none drop-shadow-sm p-5">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
             <CardTitle className="text-xl line-clamp-1">Accounts</CardTitle>
             <Button size='sm' onClick={newAccount.onOpen}>

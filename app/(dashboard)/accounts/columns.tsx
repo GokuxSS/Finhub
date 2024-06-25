@@ -8,12 +8,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import type { InferRequestType, InferResponseType } from "hono/client";
 import { client } from "@/lib/hono-client";
+import { Actions } from "./actions"
 
 // InferResponseType
 export type ResType = InferResponseType<typeof client.api.accounts.$get,200>["data"][0];
 
 
-export const columns: ColumnDef<ResType>[] = [{
+export const columns: ColumnDef<ResType>[] = [
+  {
   id: "select",
   header: ({ table }) => (
     <Checkbox
@@ -49,5 +51,9 @@ export const columns: ColumnDef<ResType>[] = [{
       )
     },
   },
+  {
+    id: "actions",
+    cell: ({row}) => <Actions  id={row.original.id}/>
+  }
 
 ]
