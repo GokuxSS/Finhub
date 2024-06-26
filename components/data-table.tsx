@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
 
   const [Dialog,confirmDelete] =useConfirm( 'Are you sure?',
-    'Are you sure you want to delete user "Isaac Kwok"?');
+    'Are you sure you want to delete category?');
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -71,8 +71,7 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  
-
+  console.log("filterKey:",filterKey);
   return (
     <div>
         <Dialog/>
@@ -89,9 +88,7 @@ export function DataTable<TData, TValue>({
              table.getFilteredSelectedRowModel().rows.length > 0 && (
                <Button size="sm" disabled={disabled} variant="outline" className="ml-auto font-normal text-sx" onClick={
                 async ()=>{
-                  console.log("Deleted button");
                   const ans = await confirmDelete();
-                  // const ans = true;
                   if(ans){
                     onDelete(table.getFilteredSelectedRowModel().rows);
                     table.resetRowSelection();

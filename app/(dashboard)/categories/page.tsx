@@ -8,25 +8,27 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import useGetAccounts from "@/features/accounts/api/use-get-accounts";
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import { Loader2, Plus } from "lucide-react";
 import { columns } from "./columns";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useBulkDeleteAccounts } from "@/features/accounts/hooks/use-bulk-delete-accounts";
 
+import { useBulkDeleteCategories } from "@/features/categories/hooks/use-bulk-delete-categories";
+
+
+import useGetCategories from "@/features/categories/api/use-get-categories";
+import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 
 export default function AccountPage() {
-  const newAccount = useNewAccount();
-  const getAccountsQuery = useGetAccounts();
-  const deleteAccountsQuery = useBulkDeleteAccounts();
+  const newCategory = useNewCategory();
+  const getCategoriesQuery = useGetCategories();
+  const deleteCategoriesQuery = useBulkDeleteCategories();
 
-  const accountsData = getAccountsQuery.data || [];
+  const accountsData = getCategoriesQuery.data || [];
 
-  const isDisabled = getAccountsQuery.isLoading || deleteAccountsQuery.isPending;
+  const isDisabled = getCategoriesQuery.isLoading || deleteCategoriesQuery.isPending;
 
-  if (getAccountsQuery.isLoading){
+  if (getCategoriesQuery.isLoading){
     return (
       <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm">
@@ -48,14 +50,14 @@ export default function AccountPage() {
         <Card className="border-none drop-shadow-sm p-5">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
             <CardTitle className="text-xl line-clamp-1">Accounts</CardTitle>
-            <Button size='sm' onClick={newAccount.onOpen}>
+            <Button size='sm' onClick={newCategory.onOpen}>
                 <Plus className="size-4 mr-2"/>
                 Add New
             </Button>
             </CardHeader>
             <DataTable filterKey="name" columns={columns} data={accountsData} disabled={isDisabled} onDelete={(row)=>{
               const ids = row.map(r=>r.original.id);
-              deleteAccountsQuery.mutate({ids});
+              deleteCategoriesQuery.mutate({ids});
             }}/>
         </Card>
     </div>
