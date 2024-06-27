@@ -8,25 +8,30 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import useGetAccounts from "@/features/accounts/api/use-get-accounts";
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+
+
+import useGetTranscation from "@/features/transactions/api/use-get-transaction";
+import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
+import { useBulkDeleteTransactions } from './../../../features/transactions/api/use-bulk-delete-transactions';
+
+
 import { Loader2, Plus } from "lucide-react";
 import { columns } from "./columns";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useBulkDeleteAccounts } from "@/features/accounts/hooks/use-bulk-delete-accounts";
+import { transactions } from './../../../db/schema';
 
 
-export default function AccountPage() {
-  const newAccount = useNewAccount();
-  const getAccountsQuery = useGetAccounts();
-  const deleteAccountsQuery = useBulkDeleteAccounts();
+export default function TransactionPage() {
+  const newTransaction = useNewTransaction();
+  const getTransactionQuery = useGetTranscation();
+  const deleteTransactionQuery = useBulkDeleteTransactions();
 
-  const accountsData = getAccountsQuery.data || [];
+  const accountsData = getTransactionQuery.data || [];
 
-  const isDisabled = getAccountsQuery.isLoading || deleteAccountsQuery.isPending;
+  const isDisabled = getTransactionQuery.isLoading || deleteTransactionQuery.isPending;
 
-  if (getAccountsQuery.isLoading){
+  if (getTransactionQuery.isLoading){
     return (
       <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm">
@@ -42,20 +47,19 @@ export default function AccountPage() {
       </div>
     )
   }
-
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm p-5">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
             <CardTitle className="text-xl line-clamp-1">Accounts</CardTitle>
-            <Button size='sm' onClick={newAccount.onOpen}>
+            <Button size='sm' onClick={newTransaction.onOpen}>
                 <Plus className="size-4 mr-2"/>
                 Add New
             </Button>
             </CardHeader>
             <DataTable filterKey="name" columns={columns} data={accountsData} disabled={isDisabled} onDelete={(row)=>{
               const ids = row.map(r=>r.original.id);
-              deleteAccountsQuery.mutate({ids});
+              deleteTransactionQuery.mutate({ids});
             }}/>
         </Card>
     </div>
