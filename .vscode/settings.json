@@ -1,7 +1,4 @@
 {
-    "code-runner.clearPreviousOutput": true,
-    "code-runner.runInTerminal": true,
-    "code-runner.saveFileBeforeRun": true,
     "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "[html]": {
@@ -53,7 +50,5 @@
     },
     "search.showLineNumbers": true,
     "typescript.updateImportsOnFileMove.enabled": "never",
-    "settingsSync.ignoredSettings": [
 
-    ],
 }

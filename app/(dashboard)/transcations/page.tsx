@@ -27,7 +27,7 @@ export default function TransactionPage() {
   const getTransactionQuery = useGetTranscation();
   const deleteTransactionQuery = useBulkDeleteTransactions();
 
-  const accountsData = getTransactionQuery.data || [];
+  const transactionData = getTransactionQuery.data || [];
 
   const isDisabled = getTransactionQuery.isLoading || deleteTransactionQuery.isPending;
 
@@ -51,13 +51,13 @@ export default function TransactionPage() {
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm p-5">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-            <CardTitle className="text-xl line-clamp-1">Accounts</CardTitle>
+            <CardTitle className="text-xl line-clamp-1">Transaction history</CardTitle>
             <Button size='sm' onClick={newTransaction.onOpen}>
                 <Plus className="size-4 mr-2"/>
                 Add New
             </Button>
             </CardHeader>
-            <DataTable filterKey="name" columns={columns} data={accountsData} disabled={isDisabled} onDelete={(row)=>{
+            <DataTable filterKey="name" columns={columns} data={transactionData} disabled={isDisabled} onDelete={(row)=>{
               const ids = row.map(r=>r.original.id);
               deleteTransactionQuery.mutate({ids});
             }}/>

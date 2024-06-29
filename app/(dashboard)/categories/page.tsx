@@ -49,7 +49,7 @@ export default function AccountPage() {
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm p-5">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-            <CardTitle className="text-xl line-clamp-1">Accounts</CardTitle>
+            <CardTitle className="text-xl line-clamp-1">Categories</CardTitle>
             <Button size='sm' onClick={newCategory.onOpen}>
                 <Plus className="size-4 mr-2"/>
                 Add New

@@ -143,10 +143,12 @@ const app = new Hono()
       }
 
       const data = c.req.valid("json");
+
       const insertValues = {
         id: createId(),
         ...data,
       };
+
       const insertedData = await db
         .insert(transactions)
         .values(insertValues)
